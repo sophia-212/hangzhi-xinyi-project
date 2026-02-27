@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>民航职业规划平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* 蓝色天空渐变背景 */
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F7FF 100%);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            animation: fadeIn 1.2s ease;
+        }
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
+        .tag {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+        .tag:hover {
+            transform: translateY(-3px);
+        }
+        .tag:nth-child(1) { background: #ff6b6b; }
+        .tag:nth-child(2) { background: #4ecdc4; }
+        .tag:nth-child(3) { background: #45b7d1; }
+        .tag:nth-child(4) { background: #f9ca24; color: #2d3436; }
+        .tag:nth-child(5) { background: #6c5ce7; }
+        .btn {
+            display: inline-block;
+            padding: 14px 40px;
+            border-radius: 50px;
+            background: #fff;
+            color: #667eea;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>民航职业规划平台</h1>
+        <p class="subtitle">探索航空领域，规划职业未来</p >
+        <div class="tag-group">
+            <span class="tag">飞行员</span>
+            <span class="tag">空管</span>
+            <span class="tag">机务</span>
+            <span class="tag">乘务</span>
+            <span class="tag">地勤</span>
+        </div>
+        <a href=" " class="btn">进入平台</a >
+    </div>
+</body>
+</html>
