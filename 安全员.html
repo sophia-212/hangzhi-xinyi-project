@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全员职业详情 - 航职新翼CareerWings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #39b6e8;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .user-actions a {
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .section-title p {
+            color: #999;
+        }
+
+        .security-detail {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .security-video-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .security-video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .security-info {
+            padding: 30px;
+        }
+
+        .security-info h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .security-info p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .security-path {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .security-path h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .path-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .path-step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: #39b6e8;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 15px;
+        }
+
+        .path-step h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .path-step p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .security-requirements {
+            margin-bottom: 30px;
+        }
+
+        .security-requirements h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .requirements-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .requirement-item i {
+            color: #39b6e8;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .security-career-growth {
+            margin-bottom: 30px;
+        }
+
+        .security-career-growth h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .career-growth-chart {
+            height: 300px;
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .security-salary {
+            margin-bottom: 30px;
+        }
+
+        .security-salary h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .salary-chart {
+            height: 300px;
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .back-to-home {
+            display: inline-block;
+            background-color: #39b6e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home:hover {
+            background-color: #2a9dc0;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                    <span><a href="主页.html">航职新翼</a></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="./规划指导.html">规划指导</a></li>
+                    <li><a href="行业动态2.html">行业动态</a></li>
+                    <li><a href="招聘信息.html">招聘信息</a></li>
+                    <li><a href="学习资源.html">学习资源</a></li>
+                    <li><a href="互动专区.html ">互动专区</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="登录.html">登录</a>
+                    <a href="注册.html">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="section-title">
+                <h2>安全员职业详情</h2>
+                <p>探索安全员职业的详细信息和职业规划路径</p>
+            </div>
+
+            <div class="security-detail">
+                <div class="security-video-container">
+                    <video width="100%" height="100%" controls autoplay muted loop>
+                        <source src="安全员.mp4" type="video/mp4">
+                        您的浏览器不支持视频标签，请升级浏览器以观看视频。
+                    </video>
+                </div>
+                <div class="security-info">
+                    <h3>安全员</h3>
+                    <p>安全员主要负责飞行中的安全，通过动态巡查、隐患排查、应急响应、安全培训及合规监督，全面保障飞机上人员安全与环境秩序。</p>
+                    <p>安全员需要具备良好的身体素质、心理素质和应急处理能力，以应对各种突发安全事件，确保飞行全程的安全。</p>
+                </div>
+            </div>
+
+            <div class="security-features">
+                <div class="feature-card">
+                    <h4>职业特点</h4>
+                    <p>安全员职业具有高度的责任性和挑战性，需要具备良好的身体素质、心理素质和应急处理能力。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>工作环境</h4>
+                    <p>主要在飞机客舱内工作，需要适应不同的飞行环境和时区变化，工作时间相对不固定。</p>
+                </div>
+                <div class="feature-card">
+                    <h4>职业发展前景</h4>
+                    <p>从初级安全员逐步晋升为高级安全员、安全主管或安全管理岗位。</p>
+                </div>
+            </div>
+
+            <div class="security-path">
+                <h3>职业发展路径</h3>
+                <div class="path-steps">
+                    <div class="path-step">
+                        <div class="step-number">1</div>
+                        <h4>学历教育</h4>
+                        <p>完成相关专业学历教育（如安全工程、交通运输等）</p>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-number">2</div>
+                        <h4>专业培训</h4>
+                        <p>参加民航局认可的安全员培训课程</p>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-number">3</div>
+                        <h4>执照考试</h4>
+                        <p>通过民航局组织的执照考试，取得安全员执照</p>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-number">4</div>
+                        <h4>初级安全员</h4>
+                        <p>从初级安全员开始积累实际工作经验</p>
+                    </div>
+                    <div class="path-step">
+                        <div class="step-number">5</div>
+                        <h4>高级安全员</h4>
+                        <p>积累经验后晋升为高级安全员或安全主管</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="section-title">
+                <a href="主页.html" class="back-to-home">返回主页</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>中国民航大学创新创业训练项目 《航空职业——基于民航产业链的岗位职业规划平台构建》</p>
+    </footer>
+</body>
+</html>

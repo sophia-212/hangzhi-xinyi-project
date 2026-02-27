@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>航职新翼CareerWings - 规划指导</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #39b6e8;
+            bottom: -5px;
+            left: 0;
+        }
+
+        /* 特别为规划指导添加的样式 */
+        .nav-links a.planning-link {
+            color: #39b6e8;
+        }
+
+        .user-actions a {
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            margin-top: 60px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #999;
+        }
+
+        .planning-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .planning-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .planning-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .planning-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .planning-content {
+            padding: 20px;
+        }
+
+        .planning-content h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .planning-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .planning-content a {
+            display: inline-block;
+            background-color: #39b6e8;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .planning-content a:hover {
+            background-color: #299ad6;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+        }
+
+        .carousel-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background-color: #39b6e8;
+            color: white;
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .contact-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contact-title {
+            font-size: 36px;
+            margin-bottom: 30px;
+            position: relative;
+            left: 20px;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            margin: 0 30px;
+            text-align: center;
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background-color: #39b6e8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .contact-info {
+            color: #39b6e8;
+            text-decoration: none;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #ddd;
+        }
+
+        .news {
+            display: inline-block;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .news:hover {
+            color: #39b6e8;
+            background-color: rgba(57, 182, 232, 0.1);
+            padding: 2px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                    <span><a href="主页.html">航职新翼</a></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="规划指导.html" class="planning-link">规划指导</a></li>
+                    <li><a href="行业动态2.html">行业动态</a></li>
+                    <li><a href="招聘信息.html">招聘信息</a></li>
+                    <li><a href="学习资源.html">学习资源</a></li>
+                    <li><a href="互动专区.html">互动专区</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="登录.html">登录</a>
+                    <a href="注册.html">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="section-title">
+                <h2>规划指导</h2>
+                <p>为您的职业发展提供专业指导</p>
+            </div>
+
+            <div class="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" style="background-image: url('1.jpg');"></div>
+                    <div class="carousel-item" style="background-image: url('2.jpg');"></div>
+                    <div class="carousel-item" style="background-image: url('3.jpg');"></div>
+                    <div class="carousel-item" style="background-image: url('4.jpg');"></div>
+                </div>
+                <button class="carousel-btn prev">&#10094;</button>
+                <button class="carousel-btn next">&#10095;</button>
+            </div>
+
+            <div class="planning-grid">
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>飞行员</h3>
+                        <p>飞行员负责飞机的操作，包括起飞、飞行和降落，是航空安全的直接责任人。他们需要经过严格的训练，持有相应执照，并持续进行专业培训。</p>
+                        <a href="https://mp.weixin.qq.com/s/eG43NY6Zt-EWxBXN1BdC3g">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/2kSWMUbND6R94HBshoynbw">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>机务维修人员</h3>
+                        <p>机务维修人员负责飞机的维护、检查和修理，确保飞机的状态符合安全标准。机务人员的工作对飞行安全至关重要，需要高度的专业知识和责任感。</p>
+                        <a href="https://mp.weixin.qq.com/s/bjvPdmovhctly47T00M2Ew">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/2jpVDliiRmorwYs370fXPw">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>空中交通管制员</h3>
+                        <p>空中交通管制员指导飞机在机场周围及航路中的飞行，防止撞，优化飞行路径。空管是保障飞行秩序和安全的关键。</p>
+                        <a href="https://mp.weixin.qq.com/s/g54qmctWzgzddA338TgZ3Q">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/xV0Rzo3xE9wNnDT8vsLMig">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>乘务员</h3>
+                        <p>乘务员在飞行中提供乘客服务，确保乘客安全和舒适，处理紧急情况。他们的工作不仅关乎服务，也涉及乘客安全。</p>
+                        <a href="https://mp.weixin.qq.com/s/5f-wArhbZTI3PWqh369lfQ">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/fDzPtQnRTccLlcqjtq8UmA">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>签派员</h3>
+                        <p>签派员负责航班的计划与调度，包括天气评估、燃油计算、航线规划等，是航空公司运营的幕后指挥者。</p>
+                        <a href="https://mp.weixin.qq.com/s/BHU6UrKpDB-DhxIqSXbJ1w">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/92XXNCQRGzBJ0Vi0d2-pGQ">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>地勤人员</h3>
+                        <p>地勤人员包括值机、行李处理、登机服务等，负责地面的旅客服务和航班准备，是旅客体验的重要组成部分。</p>
+                        <a href="https://mp.weixin.qq.com/s/ma9Pjfq8cf45ISquN1l-5g">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/F-XbiCfjd-RP3kSE5clHvw">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>安全员</h3>
+                        <p>安全员主要负责飞行中的安全，通过动态巡查、隐患排查、应急响应、安全培训及合规监督，全面保障飞机上人员安全与环境秩序。</p>
+                        <a href="https://mp.weixin.qq.com/s/xvJgb_4FVJVk7kYZAG1h7g">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/O5vYmVZPg_5VrWr4ltY6Tg">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>运控人员</h3>
+                        <p>运控人员负责航空公司的运行控制，包括航班监控、应急响应、资源调配，是确保航班正常运行的中枢。</p>
+                        <a href="https://mp.weixin.qq.com/s/fTUXiHjDooJzlDbrAMxRkQ">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/L3BDSWy_Ye4QSWzY1rl6HQ">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>培训教员</h3>
+                        <p>培训教员为飞行员、乘务员、机务等提供专业培训，确保人员技能符合行业标准。</p>
+                        <a href="https://mp.weixin.qq.com/s/myPpVe-zJBatdu23O6dIRQ">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/v8Ww4qhLuaYEyEaQIXJntA">入职五年</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>电子工程师</h3>
+                        <p>电子工程师确保机场和航班的安全，通过严格检查防止违禁品进入机场和飞机。</p>
+                        <a href="https://mp.weixin.qq.com/s/xpiKMzOclFCTpnzYQ1bdvQ">在校四年</a>
+                        <a href="https://mp.weixin.qq.com/s/EYxv8GXbBCAYkYF6OLvgKA">入职五年</a>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="section-title">
+                <h2>职业测评工具</h2>
+                <p>科学评估，精准定位</p>
+            </div>
+
+            <div class="planning-grid">
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>MBTI职业性格测试</h3>
+                        <p>通过MBTI测试了解您的性格类型，发现适合您的职业方向，帮助您做出更明智的职业选择。</p>
+                        <a href="https://www.16personalities.com/">开始测试</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>技能评估</h3>
+                        <p>评估您的专业技能和软技能，发现优势和短板，为职业技能提升提供方向。</p>
+                        <a href="https://www.cpch.org.cn/">开始评估</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>兴趣探索</h3>
+                        <p>通过兴趣探索测试，了解您真正感兴趣的职业领域，找到适合您的职业方向。</p>
+                        <a href="https://m.jianying101.com/#/answer?id=38">开始探索</a>
+                    </div>
+                </div>
+
+                <div class="planning-card">
+                    <div class="planning-content">
+                        <h3>价值观评估</h3>
+                        <p>评估您的职业价值观，帮助您选择与个人价值观相符的职业，实现职业满意度。</p>
+                        <a href="https://e.chameiwang.com/ceshi/1496.html">开始评估</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>中国民航大学创新创业训练项目 《航空职业——基于民航产业链的岗位职业规划平台构建》</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 轮播图功能
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const carouselBtns = document.querySelectorAll('.carousel-btn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                carouselItems.forEach(item => item.classList.remove('active'));
+                currentSlide = (n + carouselItems.length) % carouselItems.length;
+                carouselItems[currentSlide].classList.add('active');
+            }
+
+            carouselBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.classList.contains('prev')) {
+                        showSlide(currentSlide - 1);
+                    } else {
+                        showSlide(currentSlide + 1);
+                    }
+                });
+            });
+
+            // 自动轮播
+            setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>航职新翼CareerWings</title>
+    <style>
+        * {
+            margin: 0; 
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #39b6e8;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .user-actions a {
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            margin-top: 60px;
+        }
+
+        .hot-events {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .events-list {
+            flex: 0 0 20%;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .events-list h2 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .events-list .news {
+            margin-bottom: 10px;
+        }
+
+        .events-content {
+            flex: 0 0 75%;
+            margin-left: 5%;
+            background-color: #e5e9f0;
+            min-height: 200px;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            background-color: #55c5e5;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #39b6e8;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container {
+            background-color: #e5e9f0;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-title p {
+            color: #999;
+        }
+
+        .careers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .career-card {
+            background-color: #e5e9f0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .career-image {
+            background-color: #39b6e8;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .career-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .career-info h3 {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .career-info p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+
+        .more-link {
+            display: inline-block;
+            background-color: #fff;
+            color: #39b6e8;
+            padding: 5px 15px;
+            border-radius: 15px;
+            text-decoration: none;
+        }
+
+        .news-section {
+            background-color: #e5e9f0;
+            padding: 30px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .news-icon {
+            flex: 0 0 100px;
+            margin-right: 20px;
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-content h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .news-content p {
+            text-align: center;
+            color: #666;
+        }
+
+        .contact-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contact-title {
+            font-size: 36px;
+            margin-bottom: 30px;
+            position: relative;
+            left: 20px;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-item {
+            margin: 0 30px;
+            text-align: center;
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background-color: #39b6e8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .contact-info {
+            color: #39b6e8;
+            text-decoration: none;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #ddd;
+        }
+
+        .news {
+            display: inline-block;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .news:hover {
+            color: #39b6e8;
+            background-color: rgba(57, 182, 232, 0.1);
+            padding: 2px 0;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .carousel-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), transparent);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.9);
+            color: #333;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background-color: #39b6e8;
+            color: white;
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .alumni-slider-container {
+            position: relative;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .alumni-slider-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            padding: 0 20px;
+            text-align: left;
+        }
+
+        .alumni-slider-item.active {
+            opacity: 1;
+        }
+
+        .alumni-slider-item p {
+            text-align: left;
+            text-indent: 2em;
+            line-height: 1.6;
+        }
+
+        .alumni-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 4px;
+            background-color: #ddd;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .indicator.active {
+            background-color: #007bff;
+        }
+
+        .promotion-video-container {
+            margin-top: 50px;
+            padding: 20px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1500px;
+            height: 600px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 10px 20px;
+            color: #333;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 18px;
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                    <span>航职新翼</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="规划指导.html">规划指导</a></li>
+                    <li><a href="行业动态2.html">行业动态</a></li>
+                    <li><a href="招聘信息.html">招聘信息</a></li>
+                    <li><a href="学习资源.html">学习资源</a></li>
+                    <li><a href="互动专区.html">互动专区</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="测试.html">登录</a>
+                    <a href="注册.html">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="hot-events">
+                <div class="events-list">
+                    <h2>热点事件:</h2>
+                    <div class="news">
+                        <a href="https://www.caac.gov.cn/XWZX/MHYW/202510/t20251024_228975.html">第三届CATA航空大会在京开幕</a>
+                    </div>
+                    <div class="news">
+                        <a href="https://www.caac.gov.cn/XWZX/MHYW/202510/t20251024_228953.html">全国民航10月26日起执行冬春航季航班计划</a>
+                    </div>
+                    <div class="news">
+                        <a href="https://www.caac.gov.cn/XWZX/MHYW/202510/t20251016_228866.html">民航局召开10月安委会全体（扩大）会议</a>
+                    </div>
+                    <div class="news">
+                        <a href="https://www.caac.gov.cn/XWZX/MHYW/202510/t20251021_228918.html">民航局举办纪检干部综合业务培训班</a>
+                    </div>
+                    <div class="news">
+                        <a href="https://www.caac.gov.cn/XWZX/MHYW/202510/t20251015_228862.html">国际航协世界安全与运行大会首次在华举办</a>
+                    </div>
+                    <div class="news">
+                        <a href="https://www.caac.gov.cn/XWZX/MHYW/202510/t20251010_228775.html">民航局党组理论学习中心组举行集体学习</a>
+                    </div>
+                </div>
+                <div class="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" style="background-image: url('1.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('2.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('3.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('4.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('5.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('6.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('7.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('8.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('9.jpg');"></div>
+                        <div class="carousel-item" style="background-image: url('10.jpg');"></div>
+                    </div>
+                    <button class="carousel-btn prev">&#10094;</button>
+                    <button class="carousel-btn next">&#10095;</button>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="https://mp.weixin.qq.com/s/Eb34n96jGMig3ynk5RtF_w" class="btn">网站介绍</a>
+                <a href="https://www.wjx.cn/vm/h6OS8rv.aspx" class="btn">调查问卷</a>
+                <a href="https://www.yibiaoda.com/r/30n8p" class="btn">职业兴趣测评</a>
+            </div>
+            <div class="promotion-video-container">
+                <div class="video-wrapper">
+                    <video id="promotionVideo" controls="false" width="100%" height="400">
+                        <source src="封面视频.mp4" type="video/mp4">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                    <button class="play-button">播放</button>
+                    <div class="loading">视频加载中...</div>
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h2>热门职业</h2>
+                <p>多种热门职业等待发掘</p>
+            </div>
+
+            <div class="careers-grid">
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="1.jpg" alt="飞行员">
+                    </div>
+                    <div class="career-info">
+                        <h3>飞行员</h3>
+                        <p>飞行员负责飞机的操作，包括起飞、飞行和降落，是航空安全的直接责任人。他们需要经过严格的训练，持有相应执照，并持续进行专业培训。</p>
+                        <a href="飞行员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="2.jpg" alt="机务维修人员">
+                    </div>
+                    <div class="career-info">
+                        <h3>机务维修人员</h3>
+                        <p>机务维修人员负责飞机的维护、检查和修理，确保飞机的技术状态符合安全标准。机务人员的工作对飞行安全至关重要，需要高度的专业知识和责任感。</p>
+                        <a href="机务维修人员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="3.jpg" alt="空中交通管制员">
+                    </div>
+                    <div class="career-info">
+                        <h3>空中交通管制员</h3>
+                        <p>空中交通管制员指导飞机在机场周围及航路中的飞行，防止撞，优化飞行路径。空管是保障飞行秩序和安全的关键。</p>
+                        <a href="空中交通管制员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="4.jpg" alt="乘务员">
+                    </div>
+                    <div class="career-info">
+                        <h3>乘务员</h3>
+                        <p>乘务员在飞行中提供乘客服务，确保乘客安全和舒适，处理紧急情况。他们的工作不仅关乎服务，也涉及乘客安全。</p>
+                        <a href="乘务员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="5.jpg" alt="签派员">
+                    </div>
+                    <div class="career-info">
+                        <h3>签派员</h3>
+                        <p>签派员负责航班的计划与调度，包括天气评估、燃油计算、航线规划等，是航空公司运营的幕后指挥者。</p>
+                        <a href="签派员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="6.jpg" alt="地勤人员">
+                    </div>
+                    <div class="career-info">
+                        <h3>地勤人员</h3>
+                        <p>地勤人员包括值机、行李处理、登机服务等，负责地面的旅客服务和航班准备，是旅客体验的重要组成部分。</p>
+                        <a href="地勤人员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="7.jpg" alt="安全员">
+                    </div>
+                    <div class="career-info">
+                        <h3>安全员</h3>
+                        <p>安全员主要负责飞行中的安全，通过动态巡查、隐患排查、应急响应、安全培训及合规监督，全面保障飞机上人员安全与环境秩序。</p>
+                        <a href="安全员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="8.jpg" alt="运控人员">
+                    </div>
+                    <div class="career-info">
+                        <h3>运控人员</h3>
+                        <p>运控人员负责航空公司的运行控制，包括航班监控、应急响应、资源调配，是确保航班正常运行的中枢。</p>
+                        <a href="运控人员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="9.jpg" alt="培训教员">
+                    </div>
+                    <div class="career-info">
+                        <h3>培训教员</h3>
+                        <p>培训教员为飞行员、乘务员、机务等提供专业培训，确保人员技能符合行业标准。</p>
+                        <a href="培训教员.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+                <div class="career-card">
+                    <div class="career-image">
+                        <img src="10.jpg" alt="电子工程师">
+                    </div>
+                    <div class="career-info">
+                        <h3>电子工程师</h3>
+                        <p>电子工程师确保机场和航班的安全，通过严格检查防止违禁品进入机场和飞机。</p>
+                        <a href="电子工程师.html" class="more-link">查看详情</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-section">
+
+                <div class="news-content">
+                    <h2 class="share">优秀校友案例分享</h2>
+                    <div class="alumni-slider-container">
+                        <div class="alumni-slider-item active">
+                            <p>屈昊橙 2018 年进入中国民航大学，开启飞行生涯。在内蒙古飞行学院训练中，他驾驶多种机型完成从理论到实践的蜕变，积累了飞行经验。毕业后进入国航天津分公司，抓住 ACPC 课程机会，跳过高性能训练，直接进入模拟机训练，完成波音 737 初始改装训练，成为副驾驶。从校园到航空公司，他经历了从散漫到紧张、从飞行训练到航班生产的转变，感受到商业飞行与航校训练的巨大差异。凭借过硬技术和扎实理论基础，他应对了大型客机复杂系统和多变飞行环境的挑战。屈昊橙深知飞行员职业不仅是技术提升，更是心态和习惯养成，总结出过硬作风、胆大心细、严守规章、终身学习和保持平常心等习惯，助力他在飞行领域前行。</p>
+                        </div>
+                        <div class="alumni-slider-item">
+                            <p>张彭叙从中国民航大学毕业后投身蓝天，每一步都坚实有力。刚入学时，他感到迷茫，但通过军训和社团活动逐渐适应，担任飞院舞协会长，丰富了大学生活。他提醒学弟学妹们，未来按部就班，珍惜学习机会。在大学期间，张彭叙重视理论学习，从零开始掌握专业知识，强调理论知识对飞行的基础作用。经过两年理论学习，他通过私商仪考试，进入航校进行飞行训练。在训练中，他体验了飞行的魅力和挑战，如练习失速改出时的失重感。他鼓励学弟学妹们学好飞行本领，保持冷静，确保安全。如今，张彭叙已成长为一名合格飞行员。他鼓励学弟学妹们相信国家民航实力，坚持梦想，不受负面言论影响，强调英语学习的重要性，建议多看英语影视作品，有计划地学习。</p>
+                        </div>
+                        <div class="alumni-slider-item">
+                            <p>姜小川，一位即将结束实习的大四学生，作为"云端守护者"，正一步步走向属于自己的职业舞台。实习中，他打破常规，重塑认知，意识到实际工作比学校知识更复杂，需灵活应对。他强调自主学习和沟通协作能力的重要性，认为优秀空管员需具备责任感、应变能力和学习能力。姜小川学长选择空管职业，因指挥飞机起降带来的成就感、保障旅客安全的使命感，以及为祖国航空事业做贡献的荣誉感。他的故事展现了从实习到正式上岗的成长，体现了对航空事业的热爱与期待。</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h2 class="contact-title">联系我们</h2>
+                <div class="contact-methods">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="email.png" alt="Email Icon">
+                        </div>
+                        <p>电子邮箱</p>
+                        <a href="mailto:13704340137@139.com" class="contact-info">13704340137@139.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="phone.png" alt="Phone Icon">
+                        </div>
+                        <p>电话</p>
+                        <a href="tel:13704340137" class="contact-info">13704340137</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>中国民航大学创新创业训练项目 《航空职业——基于民航产业链的岗位职业规划平台构建》</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 轮播图功能
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const carouselBtns = document.querySelectorAll('.carousel-btn');
+            let currentSlide = 0;
+
+            function showSlide(n) {
+                carouselItems.forEach(item => item.classList.remove('active'));
+                currentSlide = (n + carouselItems.length) % carouselItems.length;
+                carouselItems[currentSlide].classList.add('active');
+            }
+
+            carouselBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.classList.contains('prev')) {
+                        showSlide(currentSlide - 1);
+                    } else {
+                        showSlide(currentSlide + 1);
+                    }
+                });
+            });
+
+            // 自动轮播
+            setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 3000);
+
+            // 校友案例轮播
+            const alumniItems = document.querySelectorAll('.alumni-slider-item');
+            const alumniIndicators = document.querySelectorAll('.indicator');
+            let currentAlumniSlide = 0;
+
+            function showAlumniSlide(n) {
+                alumniItems.forEach(item => item.classList.remove('active'));
+                currentAlumniSlide = (n + alumniItems.length) % alumniItems.length;
+                alumniItems[currentAlumniSlide].classList.add('active');
+
+                alumniIndicators.forEach((ind, index) => {
+                    ind.classList.toggle('active', index === currentAlumniSlide);
+                });
+            }
+
+            alumniIndicators.forEach((ind, index) => {
+                ind.addEventListener('click', () => {
+                    showAlumniSlide(index);
+                });
+            });
+
+            // 自动轮播校友案例
+            setInterval(() => {
+                showAlumniSlide(currentAlumniSlide + 1);
+            }, 5000);
+
+            // 视频播放控制
+            const video = document.getElementById('promotionVideo');
+            const playButton = document.querySelector('.play-button');
+            const loading = document.querySelector('.loading');
+
+            video.addEventListener('canplaythrough', () => {
+                loading.style.display = 'none';
+            });
+
+            playButton.addEventListener('click', function() {
+                if (video.paused) {
+                    video.play();
+                    this.textContent = '暂停';
+                } else {
+                    video.pause();
+                    this.textContent = '播放';
+                }
+            });
+
+            video.addEventListener('ended', () => {
+                video.load();
+                video.play();
+            });
+        });
+        // 获取新闻数据
+    async function fetchNews() {
+        try {
+            const response = await fetch('http://localhost:80');
+            const data = await response.json();
+            const newsContainer = document.querySelector('.events-list');
+
+            // 清空现有内容并添加新内容
+            newsContainer.innerHTML = '<h2>热点事件:</h2>';
+            data.forEach(item => {
+                const newsItem = document.createElement('div');
+                newsItem.className = 'news';
+                newsItem.innerHTML = `<a href="${item.url}">${item.title}</a>`;
+                newsContainer.appendChild(newsItem);
+            });
+        } catch (error) {
+            console.error('获取新闻数据失败:', error);
+        }
+    }
+
+    // 获取校友故事
+    async function fetchAlumniStories() {
+        try {
+            const response = await fetch('http://localhost:80');
+            const data = await response.json();
+            const alumniItems = document.querySelectorAll('.alumni-slider-item');
+
+            // 更新校友故事
+            alumniItems.forEach((item, index) => {
+                if (data[index]) {
+                    item.querySelector('p').textContent = data[index].content;
+                }
+            });
+        } catch (error) {
+            console.error('获取校友故事失败:', error);
+        }
+    }
+
+    // 获取热门职业数据
+    async function fetchCareers() {
+        try {
+            const response = await fetch('http://localhost:80');
+            const data = await response.json();
+            const careersContainer = document.querySelector('.careers-grid');
+
+            // 清空现有内容并添加新内容
+            careersContainer.innerHTML = '';
+            data.forEach(item => {
+                const careerCard = document.createElement('div');
+                careerCard.className = 'career-card';
+                careerCard.innerHTML = `
+                    <div class="career-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="career-info">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                        <a href="#" class="more-link">查看详情</a>
+                    </div>
+                `;
+                careersContainer.appendChild(careerCard);
+            });
+        } catch (error) {
+            console.error('获取热门职业数据失败:', error);
+        }
+    }
+
+    // 页面加载完成后获取数据
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchNews();
+        fetchAlumniStories();
+        fetchCareers();
+    });
+    </script>
+</body>
+</html>

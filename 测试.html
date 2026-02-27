@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>航职新翼 - 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background: white;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: white;
+            border-radius: 14px;
+            z-index: -1;
+            transform: scale(1.03);
+            transition: all 0.3s ease;
+        }
+
+        .login-container:hover::before {
+            transform: scale(1.05);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #39b6e8;
+            box-shadow: 0 0 0 2px rgba(57, 182, 232, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .form-group .icon {
+            position: absolute;
+            right: 15px;
+            top: 40px;
+            color: #999;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #39b6e8, #55c5e5);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #39b6e8, #55c5e5);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 182, 232, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input {
+            width: auto;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .forgot-password {
+            color: #39b6e8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #2a9bd8;
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+
+        .divider span {
+            padding: 0 15px;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn:active {
+            transform: translateY(0);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #39b6e8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .register-link a:hover {
+            color: #2a9bd8;
+            text-decoration: underline;
+        }
+
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        .login-error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="backgroundAnimation"></div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1>航职新翼</h1>
+            <p>欢迎回到航空职业规划平台</p>
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" placeholder="请输入您的邮箱" required>
+                <div class="login-error" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入您的密码" required>
+                <div class="login-error" id="passwordError"></div>
+            </div>
+
+            <div class="login-options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">记住我</label>
+                </div>
+                <a href="#" class="forgot-password">忘记密码?</a>
+            </div>
+
+            <button type="submit" class="login-btn">登录</button>
+        </form>
+
+        <div class="divider">
+            <span>或</span>
+        </div>
+
+        <div class="social-login">
+            <div class="social-btn">
+                <i>微</i>
+            </div>
+            <div class="social-btn">
+                <i>Q</i>
+            </div>
+            <div class="social-btn">
+                <i>W</i>
+            </div>
+        </div>
+
+        <div class="register-link">
+            还没有账号? <a href="#">立即注册</a>
+        </div>
+    </div>
+
+    <script>
+        // 背景粒子动画
+        function createParticles() {
+            const container = document.getElementById('backgroundAnimation');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // 随机大小
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // 随机位置
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+
+                // 随机动画延迟
+                const delay = Math.random() * 5;
+                particle.style.animationDelay = `${delay}s`;
+
+                // 添加浮动动画
+                particle.style.animation = `float ${Math.random() * 3 + 3}s infinite ease-in-out`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        // 表单验证
+        function validateForm(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            let isValid = true;
+
+            // 邮箱验证
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailError.textContent = '请输入有效的邮箱地址';
+                emailError.style.display = 'block';
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            // 密码验证
+            if (password.length < 6) {
+                passwordError.textContent = '密码长度至少为6位';
+                passwordError.style.display = 'block';
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            // 模拟登录成功
+            if (isValid) {
+                setTimeout(() => {
+                    alert('登录成功!');
+                    window.location.href = '主页.html';
+                }, 1000);
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            document.getElementById('loginForm').addEventListener('submit', validateForm);
+        });
+    </script>
+</body>
+</html>

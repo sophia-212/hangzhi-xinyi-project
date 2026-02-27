@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习资源 - 航职新翼CareerWings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            color: #39b6e8;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #39b6e8;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .user-actions a {
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #39b6e8;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title p {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .resource-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .resource-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .resource-details {
+            padding: 20px;
+        }
+
+        .resource-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .resource-author {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .resource-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .resource-link {
+            display: inline-block;
+            color: #39b6e8;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .resource-link:hover {
+            color: #2a9dc0;
+        }
+
+        .banner {
+            background-color: #e5e9f0;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            background-image: linear-gradient(to right, #e5e9f0, #f0f0f0);
+        }
+
+        .banner h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .banner p {
+            color: #666;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-banner {
+            background-color: #39b6e8;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-banner:hover {
+            background-color: #2a9dc0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 182, 232, 0.3);
+        }
+
+        .search-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .search-box {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e5e9f0;
+            border-radius: 5px 0 0 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #39b6e8;
+        }
+
+        .search-button {
+            background-color: #39b6e8;
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #2a9dc0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pagination-item:hover, .pagination-item.active {
+            background-color: #39b6e8;
+            color: #fff;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .resource-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .resource-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                    <span><a href="主页.html">航职新翼</a></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="规划指导.html">规划指导</a></li>
+                    <li><a href="行业动态2.html">行业动态</a></li>
+                    <li><a href="招聘信息.html">招聘信息</a></li>
+                    <li><a href="学习资源.html">学习资源</a></li>
+                    <li><a href="互动专区.html">互动专区</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="登录.html">登录</a>
+                    <a href="注册.html">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="section-title">
+                <h2>学习资源</h2>
+                <p>丰富的学习资源，助力您的职业发展</p>
+            </div>
+
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="搜索学习资源...">
+                    <button class="search-button">搜索</button>
+                </div>
+            </div>
+
+            <div class="banner">
+                <h2>提升专业技能，从学习开始</h2>
+                <p>我们精选了民航行业的优质学习资源，包括电子书、在线课程和专业文章，帮助您全面提升专业能力。</p>
+                <a href="#" class="btn-banner">浏览全部资源</a>
+            </div>
+
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <div class="resource-image" style="background-image: url('现代民航基础知识.jpg');"></div>
+                    <div class="resource-details">
+                        <h3 class="resource-title">《现代民航基础知识》</h3>
+                        <div class="resource-author">作者：高宏</div>
+                        <p class="resource-description">
+                            本书系统介绍了民航飞行的基本理论，包括飞行原理、气象学、导航系统等内容，适合飞行学员和相关从业人员阅读。
+                        </p>
+                        <a href="https://www.tup.com.cn/booksCenter/book_08830801.html" class="resource-link">查看详情 →</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background-image: url('航空安全管理手册.jpeg');"></div>
+                    <div class="resource-details">
+                        <h3 class="resource-title">《航空安全管理手册》</h3>
+                        <div class="resource-author">作者：李华</div>
+                        <p class="resource-description">
+                            本书详细讲解了航空安全管理的理论与实践，包括风险评估、安全管理体系建设等内容，是航空安全管理从业人员的必备参考书。
+                        </p>
+                        <a href="https://www.docin.com/p-116784043.html" class="resource-link">查看详情 →</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background-image: url('航空机务保障.png');"></div>
+                    <div class="resource-details">
+                        <h3 class="resource-title">《航空机务保障》</h3>
+                        <div class="resource-author">作者：丁谦</div>
+                        <p class="resource-description">
+                            本书涵盖了民航机务维修的基本知识和技术方法，包括飞机系统、发动机维护、故障诊断等内容，是机务维修人员的重要学习资料。
+                        </p>
+                        <a href="https://www.sjhtbook.com/book/619.html" class="resource-link">查看详情 →</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background-image: url('空中交通管理基础.png');"></div>
+                    <div class="resource-details">
+                        <h3 class="resource-title">《空中交通管理基础》</h3>
+                        <div class="resource-author">作者：张亮</div>
+                        <p class="resource-description">
+                            本书介绍了空中交通管制的基本原理和操作流程，包括雷达监控、飞行计划管理、紧急情况处理等内容，适合空管学员和从业人员学习。
+                        </p>
+                        <a href="https://wqbook.wqxuetang.com/book/3250456" class="resource-link">查看详情 →</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background-image: url('民航客舱服务与管理.png');"></div>
+                    <div class="resource-details">
+                        <h3 class="resource-title">《民航客舱服务与管理》</h3>
+                        <div class="resource-author">作者：华菁</div>
+                        <p class="resource-description">
+                            本书探讨了民航服务的基本理念和管理方法，包括旅客服务、航班管理、服务质量提升等内容，是乘务员和地勤人员的重要参考书。
+                        </p>
+                        <a href="https://press.bjtu.edu.cn/library/bookdetail/6882/" class="resource-link">查看详情 →</a>
+                    </div>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-image" style="background-image: url('民用航空法律法规.png');"></div>
+                    <div class="resource-details">
+                        <h3 class="resource-title">《民用航空法律法规》</h3>
+                        <div class="resource-author">作者：辜英智</div>
+                        <p class="resource-description">
+                            本书详细解读了民航行业的相关法规和政策，包括国际航空法、国内航空法规、安全管理规定等内容，是民航从业人员必备的学习资料。
+                        </p>
+                        <a href="https://wqbook.wqxuetang.com/book/3214441" class="resource-link">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="pagination-item active">1</a>
+                <a href="#" class="pagination-item">2</a>
+                <a href="#" class="pagination-item">3</a>
+                <a href="#" class="pagination-item">4</a>
+                <a href="#" class="pagination-item">5</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>中国民航大学创新创业训练项目 《航空职业——基于民航产业链的岗位职业规划平台构建》</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分页功能
+            const paginationItems = document.querySelectorAll('.pagination-item');
+
+            paginationItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    paginationItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

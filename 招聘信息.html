@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招聘信息 - 航职新翼CareerWings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            color: #333;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a.active {
+            color: #39b6e8;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .nav-links a:hover::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #39b6e8;
+            bottom: -5px;
+            left: 0;
+        }
+
+        .user-actions a {
+            margin-left: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            color: #39b6e8;
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            margin-top: 60px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: #39b6e8;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title p {
+            color: #999;
+            font-size: 16px;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .job-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .job-header {
+            padding: 20px;
+            background-color: #39b6e8;
+            color: #fff;
+        }
+
+        .job-title {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .job-company {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .job-details {
+            padding: 20px;
+        }
+
+        .job-meta {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .job-meta-item {
+            margin-right: 20px;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+        }
+
+        .job-meta-item i {
+            margin-right: 5px;
+            color: #39b6e8;
+        }
+
+        .job-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .job-tag {
+            background-color: #e5e9f0;
+            color: #333;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .job-apply {
+            text-align: center;
+        }
+
+        .apply-btn {
+            background-color: #39b6e8;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .apply-btn:hover {
+            background-color: #2a9dc0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 182, 232, 0.3);
+        }
+
+        .banner {
+            background-color: #e5e9f0;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            background-image: linear-gradient(to right, #e5e9f0, #f0f0f0);
+        }
+
+        .banner h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .banner p {
+            color: #666;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-banner {
+            background-color: #39b6e8;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-banner:hover {
+            background-color: #2a9dc0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 182, 232, 0.3);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .pagination-item:hover, .pagination-item.active {
+            background-color: #39b6e8;
+            color: #fff;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .job-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="logo.png" alt="Logo">
+                    <span><a href="主页.html">航职新翼</a></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="规划指导.html">规划指导</a></li>
+                    <li><a href="行业动态2.html">行业动态</a></li>
+                    <li><a href="招聘信息.html" class="active">招聘信息</a></li>
+                    <li><a href="学习资源.html">学习资源</a></li>
+                    <li><a href="互动专区.html">互动专区</a></li>
+                </ul>
+                <div class="user-actions">
+                    <a href="登录.html">登录</a>
+                    <a href="注册.html">注册</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="section-title">
+                <h2>招聘信息</h2>
+                <p>探索民航行业最新招聘机会，开启您的职业新篇章</p>
+            </div>
+
+            <div class="banner">
+                <h2>寻找理想职业，从这里开始</h2>
+                <p>我们精选了民航行业的优质招聘信息，为您提供广阔的职业发展空间。无论您是应届毕业生还是行业精英，都能在这里找到适合自己的岗位。</p>
+                <a href="https://mp.weixin.qq.com/s/Eb34n96jGMig3ynk5RtF_w" class="btn-banner">立即搜索职位</a>
+            </div>
+
+            <div class="job-grid">
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">飞行员招聘</h3>
+                        <div class="job-company">中国国际航空</div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <div class="job-meta-item">
+                                <i>📍</i> 北京
+                            </div>
+                            <div class="job-meta-item">
+                                <i>📅</i> 2025-03-20
+                            </div>
+                            <div class="job-meta-item">
+                                <i>💰</i> 20K-30K
+                            </div>
+                        </div>
+                        <p class="job-description">
+                            国际航空现招聘飞行员，要求持有商用飞行员执照，飞行小时数不少于500小时，具备良好的身体条件和心理素质。公司提供完善的培训体系和职业发展规划。
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">飞行员</span>
+                            <span class="job-tag">执照要求</span>
+                            <span class="job-tag">北京</span>
+                            <span class="job-tag">五险一金</span>
+                        </div>
+                        <div class="job-apply">
+                            <a href="https://et.airchina.com.cn/cn/about_us/recruitment/183837.shtml" class="apply-btn">申请职位</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">空中乘务员招聘</h3>
+                        <div class="job-company">中国东方航空</div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <div class="job-meta-item">
+                                <i>📍</i> 上海
+                            </div>
+                            <div class="job-meta-item">
+                                <i>📅</i> 2025-03-18
+                            </div>
+                            <div class="job-meta-item">
+                                <i>💰</i> 8K-12K
+                            </div>
+                        </div>
+                        <p class="job-description">
+                            中国东方航空现招聘空中乘务员，要求形象气质佳，身高165cm以上，具备良好的沟通能力和团队协作精神。公司提供国际航线工作机会和完善的培训体系。
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">乘务员</span>
+                            <span class="job-tag">国际航线</span>
+                            <span class="job-tag">上海</span>
+                            <span class="job-tag">五险一金</span>
+                        </div>
+                        <div class="job-apply">
+                            <a href="https://job.ceair.com/crew/crewJobList.html" class="apply-btn">申请职位</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">机务维修工程师</h3>
+                        <div class="job-company">中国南方航空</div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <div class="job-meta-item">
+                                <i>📍</i> 广州
+                            </div>
+                            <div class="job-meta-item">
+                                <i>📅</i> 2025-03-15
+                            </div>
+                            <div class="job-meta-item">
+                                <i>💰</i> 15K-25K
+                            </div>
+                        </div>
+                        <p class="job-description">
+                            中国南方航空现招聘机务维修工程师，要求具备航空工程相关专业本科及以上学历，熟悉飞机维修流程和标准，持有相关维修执照优先。
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">机务维修</span>
+                            <span class="job-tag">执照优先</span>
+                            <span class="job-tag">广州</span>
+                            <span class="job-tag">五险一金</span>
+                        </div>
+                        <div class="job-apply">
+                            <a href="https://job.csair.com/#/home" class="apply-btn">申请职位</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">签派员招聘</h3>
+                        <div class="job-company">海南航空</div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <div class="job-meta-item">
+                                <i>📍</i> 海口
+                            </div>
+                            <div class="job-meta-item">
+                                <i>📅</i> 2025-03-10
+                            </div>
+                            <div class="job-meta-item">
+                                <i>💰</i> 12K-20K
+                            </div>
+                        </div>
+                        <p class="job-description">
+                            海南航空现招聘签派员，要求具备航空管理或相关专业本科及以上学历，熟悉航班调度和运行控制流程，具备良好的分析判断能力。
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">签派员</span>
+                            <span class="job-tag">运行控制</span>
+                            <span class="job-tag">海口</span>
+                            <span class="job-tag">五险一金</span>
+                        </div>
+                        <div class="job-apply">
+                            <a href="https://www.zhipin.com/job_detail/64471280df634aa61XFy0ti_GVNR.html" class="apply-btn">申请职位</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">地勤服务专员</h3>
+                        <div class="job-company">深圳航空</div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <div class="job-meta-item">
+                                <i>📍</i> 深圳
+                            </div>
+                            <div class="job-meta-item">
+                                <i>📅</i> 2025-03-08
+                            </div>
+                            <div class="job-meta-item">
+                                <i>💰</i> 7K-10K
+                            </div>
+                        </div>
+                        <p class="job-description">
+                            深圳航空现招聘地勤服务专员，负责旅客值机、行李托运等地面服务工作。要求具备良好的服务意识和沟通能力，能适应轮班工作。
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">地勤服务</span>
+                            <span class="job-tag">旅客服务</span>
+                            <span class="job-tag">深圳</span>
+                            <span class="job-tag">五险一金</span>
+                        </div>
+                        <div class="job-apply">
+                            <a href="https://shenzhenair.hotjob.cn/" class="apply-btn">申请职位</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">航空安全员</h3>
+                        <div class="job-company">中国民用航空局</div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <div class="job-meta-item">
+                                <i>📍</i> 全国
+                            </div>
+                            <div class="job-meta-item">
+                                <i>📅</i> 2025-03-05
+                            </div>
+                            <div class="job-meta-item">
+                                <i>💰</i> 10K-18K
+                            </div>
+                        </div>
+                        <p class="job-description">
+                            中国民用航空局现招聘航空安全员，负责航班安全和旅客安全保障工作。要求具备良好的身体素质和应急处理能力，持有相关资格证书优先。
+                        </p>
+                        <div class="job-tags">
+                            <span class="job-tag">安全员</span>
+                            <span class="job-tag">安全保障</span>
+                            <span class="job-tag">全国</span>
+                            <span class="job-tag">五险一金</span>
+                        </div>
+                        <div class="job-apply">
+                            <a href="http://www.etaa.com.cn/news/news.aspx?id=11503" class="apply-btn">申请职位</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="pagination-item active">1</a>
+                <a href="#" class="pagination-item">2</a>
+                <a href="#" class="pagination-item">3</a>
+                <a href="#" class="pagination-item">4</a>
+                <a href="#" class="pagination-item">5</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>中国民航大学创新创业训练项目 《航空职业——基于民航产业链的岗位职业规划平台构建》</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分页功能
+            const paginationItems = document.querySelectorAll('.pagination-item');
+
+            paginationItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    paginationItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
