@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>后台管理</title>
+    <style>
+        .section { margin: 20px; padding: 15px; border: 1px solid #ddd; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>后台管理系统</h1>
+
+    <div class="section">
+        <h2>用户审批</h2>
+        <table id="userTable">
+            <thead><tr><th>ID</th><th>用户名</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>登录日志</h2>
+        <table id="logTable">
+            <thead><tr><th>ID</th><th>用户ID</th><th>登录时间</th><th>IP</th></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>内容管理</h2>
+        <input type="text" id="title" placeholder="标题"><br>
+        <textarea id="content" placeholder="内容"></textarea><br>
+        <button onclick="addContent()">发布内容</button>
+    </div>
+
+    <script>
+        window.onload = function() {
+            fetchUsers();
+            fetchLogs();
+        };
+
+        function fetchUsers() {
+            fetch('/api/admin/users').then(res => res.json()).then(data => {
+                const tbody = document.querySelector('#userTable tbody');
+                data.data.forEach(user => {
+                    tbody.innerHTML += `<tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.is_approved ? '已通过' : '待审批'}</td>
+                        <td>${!user.is_approved ? `<button onclick="approve(${user.id})">通过</button>` : '-'}</td>
+                    </tr>`;
+                });
+            });
+        }
+
+        function approve(userId) {
+            fetch(`/api/admin/approve/${userId}`, { method: 'POST' }).then(res => res.json()).then(data => {
+                alert(data.msg);
+                window.location.reload();
+            });
+        }
+
+        function fetchLogs() {
+            fetch('/api/admin/login-logs').then(res => res.json()).then(data => {
+                const tbody = document.querySelector('#logTable tbody');
+                data.data.forEach(log => {
+                    tbody.innerHTML += `<tr>
+                        <td>${log.id}</td>
+                        <td>${log.user_id}</td>
+                        <td>${new Date(log.login_time).toLocaleString()}</td>
+                        <td>${log.ip}</td>
+                    </tr>`;
+                });
+            });
+        }
+
+        function addContent() {
+            fetch('/api/admin/content', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: document.getElementById('title').value,
+                    content: document.getElementById('content').value
+                })
+            }).then(res => res.json()).then(data => alert(data.msg));
+        }
+    </script>
+</body>
+</html>

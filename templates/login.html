@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+</head>
+<body>
+    <h2>登录</h2>
+    <input type="text" id="username" placeholder="用户名"><br>
+    <input type="password" id="password" placeholder="密码"><br>
+    <button onclick="login()">登录</button>
+    <script>
+        function login() {
+            fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value
+                })
+            }).then(res => res.json()).then(data => {
+                alert(data.msg);
+                if (data.code === 0 && data.role === 'admin') {
+                    window.location.href = '/admin';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

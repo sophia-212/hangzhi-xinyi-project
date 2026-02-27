@@ -1,124 +1,135 @@
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from flask_cors import CORS  # 保留跨域支持
+from werkzeug.security import generate_password_hash, check_password_hash
 
-# 初始化Flask应用，指定当前目录为静态文件目录（用于加载前端页面）
-app = Flask(__name__, static_folder='.', static_url_path='')
-CORS(app)  # 允许跨域，确保前端能正常调用
+app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'  # 用于session管理
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-# ==========================
-# 新增：前端请求侦探（核心功能）
-# ==========================
-@app.before_request
-def log_request_info():
-    """每次前端发请求，都会在IDLE里打印出请求的地址和方式"""
-    print(f"\n【前端发起了请求】")
-    print(f"请求方式: {request.method}")
-    print(f"请求地址: {request.path}")
-    print(f"请求数据: {request.get_data(as_text=True)[:200]}")  # 只显示前200个字符
-    print("-" * 50)
+# -------------------------- 数据库模块（分模块+索引优化） --------------------------
+# 1. 用户模块
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False, index=True)  # 索引优化
+    password_hash = db.Column(db.String(60), nullable=False)
+    role = db.Column(db.String(10), default='user')  # 'user' 或 'admin'
+    is_approved = db.Column(db.Boolean, default=False)  # 注册审批状态
 
-# ==========================
-# 内存数据库（数据临时存储）
-# ==========================
-users = {}
-career_plans = {}
-login_logs = []
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
-# ==========================
-# 后端接口（目前是我们之前约定的地址，运行后根据打印结果修改）
-# ==========================
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
-@app.route('/register', methods=['POST'])
+# 2. 登录日志模块
+class LoginLog(db.Model):
+    __tablename__ = 'login_logs'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)  # 索引优化
+    login_time = db.Column(db.DateTime, default=datetime.utcnow)
+    ip_address = db.Column(db.String(20))
+
+# 3. 内容管理模块
+class Content(db.Model):
+    __tablename__ = 'contents'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False, index=True)  # 索引优化
+    content = db.Column(db.Text, nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    publish_time = db.Column(db.DateTime, default=datetime.utcnow)
+
+# -------------------------- 普通用户功能：登录/注册 --------------------------
+@app.route('/api/register', methods=['POST'])
 def register():
-    data = request.json or {}
-    username = data.get('username')
-    password = data.get('password')
-    
-    if not username or not password:
-        return jsonify({"msg": "用户名和密码不能为空", "code": 400}), 400
-    
-    if username in users:
-        return jsonify({"msg": "用户名已存在", "code": 400}), 400
-    
-    users[username] = {
-        "password": password,
-        "email": data.get('email', ''),
-        "register_time": datetime.now().isoformat(),
-        "last_login_ip": None,
-        "last_login_time": None
-    }
-    return jsonify({"msg": "注册成功", "code": 200}), 200
+    data = request.json
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify({"code": 1, "msg": "用户名已存在"}), 400
+    user = User(username=data['username'])
+    user.set_password(data['password'])
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({"code": 0, "msg": "注册成功，请等待管理员审批"})
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
-    data = request.json or {}
-    username = data.get('username')
-    password = data.get('password')
-    
-    if username not in users or users[username]['password'] != password:
-        return jsonify({"msg": "用户名或密码错误", "code": 401}), 401
-    
-    # 记录登录日志
-    login_logs.append({
-        "username": username,
-        "login_time": datetime.now().isoformat(),
-        "ip": request.remote_addr
+    data = request.json
+    user = User.query.filter_by(username=data['username']).first()
+    if user and user.check_password(data['password']) and user.is_approved:
+        session['user_id'] = user.id
+        log = LoginLog(user_id=user.id, ip_address=request.remote_addr)
+        db.session.add(log)
+        db.session.commit()
+        return jsonify({"code": 0, "msg": "登录成功", "role": user.role})
+    return jsonify({"code": 1, "msg": "用户名/密码错误或账号未审批"}), 401
+
+# -------------------------- 管理员功能：审批/日志/内容管理 --------------------------
+@app.route('/api/admin/approve/<int:user_id>', methods=['POST'])
+def approve_user(user_id):
+    if 'user_id' not in session or User.query.get(session['user_id']).role != 'admin':
+        return jsonify({"code": 1, "msg": "无权限"}), 403
+    user = User.query.get(user_id)
+    user.is_approved = True
+    db.session.commit()
+    return jsonify({"code": 0, "msg": "审批通过"})
+
+@app.route('/api/admin/users', methods=['GET'])
+def admin_get_users():
+    if 'user_id' not in session or User.query.get(session['user_id']).role != 'admin':
+        return jsonify({"code": 1, "msg": "无权限"}), 403
+    users = User.query.all()
+    return jsonify({
+        "code": 0,
+        "data": [{"id": u.id, "username": u.username, "role": u.role, "is_approved": u.is_approved} for u in users]
     })
-    
-    # 更新用户最后登录信息
-    users[username]['last_login_ip'] = request.remote_addr
-    users[username]['last_login_time'] = datetime.now().isoformat()
-    
-    return jsonify({
-        "msg": "登录成功", 
-        "code": 200,
-        "data": {"username": username}
-    }), 200
 
-@app.route('/admin/login_logs', methods=['GET'])
-def get_login_logs():
+@app.route('/api/admin/login-logs', methods=['GET'])
+def admin_get_login_logs():
+    if 'user_id' not in session or User.query.get(session['user_id']).role != 'admin':
+        return jsonify({"code": 1, "msg": "无权限"}), 403
+    logs = LoginLog.query.all()
     return jsonify({
-        "msg": "获取成功",
-        "code": 200,
-        "data": login_logs
-    }), 200
+        "code": 0,
+        "data": [{"id": l.id, "user_id": l.user_id, "login_time": l.login_time, "ip": l.ip_address} for l in logs]
+    })
 
-@app.route('/generate_plan', methods=['POST'])
-def generate_plan():
-    data = request.json or {}
-    username = data.get('username')
-    
-    if not username or username not in users:
-        return jsonify({"msg": "用户不存在", "code": 404}), 404
-    
-    # 结合民航+会计专业生成规划
-    plan = f"""为{username}定制的民航财会职业规划：
-1. 学业阶段：考取CPA核心科目，重点学习航空运输企业会计核算；
-2. 实习阶段：优先投递航司财务部、机场集团计财部或民航业会计师事务所；
-3. 职业发展：初级可从事成本核算、营收审计，资深后向民航财务管理专家方向晋升。"""
-    
-    career_plans[username] = {
-        "plan": plan,
-        "created_at": datetime.now().isoformat()
-    }
-    
-    return jsonify({
-        "msg": "规划生成成功",
-        "code": 200,
-        "data": career_plans[username]
-    }), 200
+@app.route('/api/admin/content', methods=['POST'])
+def admin_add_content():
+    if 'user_id' not in session or User.query.get(session['user_id']).role != 'admin':
+        return jsonify({"code": 1, "msg": "无权限"}), 403
+    data = request.json
+    content = Content(title=data['title'], content=data['content'], author_id=session['user_id'])
+    db.session.add(content)
+    db.session.commit()
+    return jsonify({"code": 0, "msg": "内容发布成功"})
 
-# ==========================
-# 主页入口
-# ==========================
+# -------------------------- 页面路由 --------------------------
 @app.route('/')
 def index():
-    return send_from_directory('.', '主页.html')
+    return render_template('index.html')
 
-# ==========================
-# 启动服务
-# ==========================
+@app.route('/admin')
+def admin_page():
+    if 'user_id' not in session or User.query.get(session['user_id']).role != 'admin':
+        return redirect(url_for('login_page'))
+    return render_template('admin.html')
+
+@app.route('/login')
+def login_page():
+    return render_template('login.html')
+
+# -------------------------- 初始化数据库 --------------------------
+with app.app_context():
+    db.create_all()
+    if not User.query.filter_by(username='admin').first():
+        admin = User(username='admin', role='admin', is_approved=True)
+        admin.set_password('admin123')
+        db.session.add(admin)
+        db.session.commit()
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
